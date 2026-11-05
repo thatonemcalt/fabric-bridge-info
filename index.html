@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FabricBridge — run Fabric server-side mods on Paper &amp; Purpur</title>
 <meta name="description" content="FabricBridge load and runs Fabric server-side mods on Paper and Purpur servers without Fabric Loader. Degradations are reported in plain language; the server never crashes on a mod failure.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%230b0f14'/%3E%3Cpath d='M10 42a22 22 0 0 1 44 0' fill='none' stroke='%2334d399' stroke-width='5'/%3E%3Cpath d='M18 42V22M46 42V22M10 42h44' stroke='%2334d399' stroke-width='3'/%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="fabric-bridge-favicon.png">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -14,10 +14,7 @@
 <header class="nav" id="top">
   <div class="nav-inner">
     <a class="brand" href="#top">
-      <!-- LOGO SLOT: swap this inline SVG for the real logo when it's ready -->
-      <span class="brand-glyph" aria-hidden="true">
-        <svg viewBox="0 0 64 64" width="26" height="26"><path d="M10 44a22 22 0 0 1 44 0" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><path d="M18 40V20M46 40V20M8 44h48" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
-      </span>
+      <img class="brand-mark" src="fabric-bridge-logo-128.png" alt="FabricBridge logo">
       <span class="wordmark">Fabric<strong>Bridge</strong></span>
     </a>
     <nav class="nav-links" id="navLinks" aria-label="Primary">
@@ -62,11 +59,12 @@
       <!-- LOGO SLOT (illustration): replace with real artwork when available -->
       <div class="mini-fig" aria-hidden="true">
         <div class="fig-side fig-fabric"><span class="fig-label">Fabric mod</span>
-          <svg viewBox="0 0 200 34" class="fig-code"><text x="6" y="13" class="t1">mixin</text><text x="42" y="13" class="t2">@Inject</text><text x="6" y="27" class="t2">class_1909</text><text x="62" y="27" class="t1">→ ItemStack</text></svg>
+          <svg viewBox="0 0 200 34" class="fig-code"><text x="6" y="13" class="t1">mixin @Inject</text><text x="6" y="27" class="t2">class_1909</text><text x="115" y="27" class="t1">→ ItemStack</text></svg>
         </div>
-        <div class="fig-bridge"><svg viewBox="0 0 240 70" class="fig-arc"><path d="M18 62a102 56 0 0 1 204 0" class="arc-main" fill="none"/><path d="M58 62V38m124 24V38m-164 24h204" class="arc-sub" fill="none"/></svg></div>
+        <!-- real logo artwork: the bridge between a purpur block and the server-side block -->
+      <div class="fig-bridge"><img src="fabric-bridge-logo-256.png" alt="" class="fig-logo"></div>
         <div class="fig-side fig-paper"><span class="fig-label">Paper / Purpur server</span>
-          <svg viewBox="0 0 200 34" class="fig-code"><text x="6" y="13" class="t2">net.minecraft</text><text x="6" y="27" class="t1">ItemStack</text><text x="66" y="27" class="t2">(official)</text></svg>
+          <svg viewBox="0 0 200 34" class="fig-code"><text x="6" y="13" class="t2">net.minecraft</text><text x="6" y="27" class="t1">ItemStack</text><text x="95" y="27" class="t2">(official)</text></svg>
         </div>
       </div>
       <p class="fig-cap">Mod classes are remapped from intermediary names to the runtime's official names before they load.</p>
@@ -272,6 +270,7 @@
 <footer class="footer">
   <div class="container foot-grid">
     <div class="foot-brand">
+      <img class="foot-mark" src="fabric-bridge-logo-128.png" alt="FabricBridge logo">
       <span class="wordmark">Fabric<strong>Bridge</strong></span>
       <p>Fabric server-side mods on Paper and Purpur servers.</p>
     </div>
