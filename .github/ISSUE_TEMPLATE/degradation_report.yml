@@ -1,0 +1,41 @@
+name: Degradation report
+description: "My favorite mod went quiet / degraded / partially active — can the bridge do better?"
+labels: [degradation]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A degradation is not a crash — the server is fine, one mod switched a piece of
+        itself off with a reason. These reports tell us whether the reason still holds
+        in the current build, or whether we can lift it.
+  - type: input
+    id: mod
+    attributes:
+      label: Which mod?
+      description: Name + version, e.g. "jamlib 2.0.0" — exactly as shown in /fb mods.
+    validations:
+      required: true
+  - type: textarea
+    id: fb-why
+    attributes:
+      label: Paste the full output of /fb why <mod>
+      description: This one command is ~90% of the diagnosis. Run it in-game or console and paste everything.
+    validations:
+      required: true
+  - type: textarea
+    id: boot-digest
+    attributes:
+      label: FabricBridge boot summary line
+      description: 'The "FabricBridge boot summary: …" line from your startup log.'
+  - type: textarea
+    id: expectation
+    attributes:
+      label: What did you expect to work that doesn't?
+      description: The concrete feature you miss — "players join fine but X command does nothing", etc.
+  - type: input
+    id: bridge-version
+    attributes:
+      label: FabricBridge version
+      description: From your boot log — the line "Loading server plugin FabricBridge …".
+    validations:
+      required: true

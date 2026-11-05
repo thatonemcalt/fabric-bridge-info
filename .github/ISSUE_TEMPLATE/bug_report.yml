@@ -1,0 +1,55 @@
+name: Bug report
+description: Something crashes, mis-ticks, or mis-queues — tell us and we'll chase it down.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing! The single most useful things you can paste:
+        the **FabricBridge boot summary** line and, if you have one, the relevant
+        file from `plugins/FabricBridge/mods/.reports/`.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: The crash, the wrong behavior, the weird log line — raw and unedited is great.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: How can we reproduce it?
+      description: Steps, the smallest mod list you can manage, anything clickable.
+    validations:
+      required: true
+  - type: textarea
+    id: server-version
+    attributes:
+      label: Server platform & build
+      description: Paste the output of `/version` (or your startup log line) — e.g. "Paper 1.21.11-xx" or "Purpur ...".
+    validations:
+      required: true
+  - type: input
+    id: bridge-version
+    attributes:
+      label: FabricBridge version
+      description: From your boot log — the line "Loading server plugin FabricBridge …".
+    validations:
+      required: true
+  - type: textarea
+    id: boot-digest
+    attributes:
+      label: FabricBridge boot summary line
+      description: 'The "FabricBridge boot summary: …" line from your startup log.'
+  - type: textarea
+    id: reports-file
+    attributes:
+      label: Any file from plugins/FabricBridge/mods/.reports/ that looks related
+      description: Drag the file in — files are attached automatically.
+  - type: checkboxes
+    id: sanity
+    attributes:
+      label: Quick sanity checks
+      options:
+        - label: The server booted without this mod too (i.e. it's really this mod or the bridge, not vanilla)
+        - label: I checked /fb status and /fb why <mod> for hints
