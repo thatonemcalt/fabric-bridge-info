@@ -10,16 +10,16 @@ fabricbridge-site/
 └── app.js       ← terminal demo, boot visualizer, mod explorer, theming, filters
 ```
 
-## Deploy to GitHub Pages (two options)
+## Deploy to GitHub Pages — live setup
 
-**Option A — from this repo (`koolaidguyhey/fabricbridge` or whatever it ends up being):**
-1. Copy `index.html`, `styles.css`, `app.js` into a `docs/` folder in the repo (or a `gh-pages` branch).
-2. Repo → Settings → Pages → Source: *Deploy from branch* → `main` `/docs`.
-3. Site live at `https://koolaidguyhey.github.io/<repo>/`.
+The site lives in repo **`thatonemcalt/fabric-bridge-info`**, deployed from the
+`main` branch root via GitHub Pages:
 
-**Option B — dedicated repo:** push these three files to a repo named
-`koolaidguyhey.github.io` (user site, served at the root) or any repo with Pages enabled.
+**Live at: <https://thatonemcalt.github.io/fabric-bridge-info/>**
 
+ Afterwards:
+1. Repo → Settings → Pages → Source: *Deploy from branch* → `main` `/`.
+2. Site builds at `https://thatonemcalt.github.io/fabric-bridge-info/`.
 ## Before launch checklist
 
 - [ ] **Logo is pending** — the nav brand + footer currently use a placeholder inline SVG
