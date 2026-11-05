@@ -1,0 +1,29 @@
+name: Question
+description: Anything from "will my mod list work" to "how do registry windows even".
+labels: [question]
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: What's the question?
+      description: Specific beats sprawling — but sprawling is welcome too.
+    validations:
+      required: true
+  - type: dropdown
+    id: topic
+    attributes:
+      label: What's it mostly about?
+      options:
+        - Installation / first boot
+        - The /fb command surface
+        - A degradation message I saw
+        - Whether a specific mod works
+        - Performance / JVM flags
+        - Something else
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Any context worth sharing
+      description: Server platform, build, mod list, the log line that made you curious — optional but helps.

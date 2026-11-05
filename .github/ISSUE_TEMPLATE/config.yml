@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: The docs
+    url: https://koolaidguyhey.github.io/fabricbridge-site/
+    about: Install guide, /fb command reference, and the honest degradation promise — most questions are answered here first.
+  - name: Read-first FAQ
+    url: https://koolaidguyhey.github.io/fabricbridge-site/#support
+    about: "Is the server broken when a mod says 'degraded'? Why was a mixin skipped? Start here before filing."
