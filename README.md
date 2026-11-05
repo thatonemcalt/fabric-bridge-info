@@ -22,9 +22,9 @@ The site lives in repo **`thatonemcalt/fabric-bridge-info`**, deployed from the
 2. Site builds at `https://thatonemcalt.github.io/fabric-bridge-info/`.
 ## Before launch checklist
 
-- [ ] **Logo is pending** — the nav brand + footer currently use a placeholder inline SVG
-      bridge glyph in a marked slot (`<!-- LOGO SLOT -->` in `index.html`); swap it (and the
-      favicon data-URI in `<head>`) when the real logo lands.
+- [x] **Logo** — `fabric-bridge.png` is the master art; transparent-color derivatives are
+      generated in-repo (`fabric-bridge-logo*.png`, `fabric-bridge-favicon.png`) and wired
+      into the nav, hero, footer, and favicon.
 - [ ] The three support cards + a few footer links are `data-soon` placeholders — point them
       at the real GitHub repo / issue templates / Modrinth page when known.
 - [ ] Optionally drop an `Inter` webfont link in `<head>` (system fonts are the current
