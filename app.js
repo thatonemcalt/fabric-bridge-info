@@ -81,8 +81,8 @@ function println(cls, text) {
 }
 
 const BOOT_HEADER = [
-  ["c-muted", "FabricBridge · Paper / Purpur · <i>demo console</i> — type <span class='c-input'>fb help</span>"],
-  ["c-dim", "This is an emulation. Your real server says the same things, honestly."],
+  ["c-muted", "FabricBridge console demo. Type <span class='c-input'>fb help</span> to see the commands."],
+  ["c-dim", "Output format matches the real console."],
   ["", ""],
 ];
 
@@ -90,11 +90,11 @@ const CMDS = { /* filled below */ };
 
 CMDS["fb status"] = () => [
   ["c-hl", "== FabricBridge — status ==", ],
-  ["c-accent", "Runtime: Paper / Purpur · agent attached at JVM start · fade-to-intermediary in"],
-  ["c-muted", "Mixins transformed: 190 · preflight-skipped (with why): 134 · failed applies: 0"],
-  ["c-ok", "Registry window: productive — bootstrapper-phase rules live, refreeze on-close complete"],
-  ["c-muted", "Reports dir: plugins/FabricBridge/mods/.reports/ · noimpl calls: 0 · tick-throw: 0"],
-  ["c-ok", "Health: rails holding. Server never crashes on a mod failure — today's proof aisle is quiet."],
+  ["c-accent", "Runtime: Paper / Purpur · agent attached before server classes load"],
+  ["c-muted", "Mixin classes transformed: 190 · preflight-skipped (with reason): 134 · failed applies: 0"],
+  ["c-ok", "Registry window: open during the bootstrap phase, refrozen on schedule"],
+  ["c-muted", "Report files: plugins/FabricBridge/mods/.reports/ · failed injection calls: 0 · tick exceptions: 0"],
+  ["c-ok", "No unhandled exceptions this session."],
 ];
 CMDS["fb degraded"] = () => [
   ["c-warn", "Degraded mods — see fb why <mod> for the reason:"],
@@ -123,8 +123,7 @@ CMDS["fb why automodpack"] = () => [
   ["c-hl", "automodpack 4.0.7 — degraded (partly failed)"],
   ["c-warn", "main entrypoint 'FabricInit::onInitialize' failed, mod may be partially active:"],
   ["c-muted", "  NoClassDefFoundError: net/minecraft/class_310 — client Minecraft class, absent on servers."],
-  ["c-ok", "Honesty block: auto-syncing a modpack needs client machinery the dedicated runtime does not"],
-  ["c-ok", "have. Players still join fine; the server degrades to its own modlistener spot."],
+  ["c-ok", "Players still connect normally; only the sync entrypoint is unavailable here."],
 ];
 CMDS["fb why"] = null;   // generic probe — handled specially in runCmd
 CMDS["fb mods"] = () => [
@@ -142,10 +141,10 @@ CMDS["fb skipped"] = () => [
   ["c-muted", "[chunky] ServerLevelMixin (structural: @Access member entityManager missing on ServerLevel)"],
   ["c-muted", "[asynclocator] DolphinSwimToTreasure (target Dolphin$SwimToTreasureGoal not on this build)"],
   ["c-muted", "[c2me-base] access.IChunkSection (validation failed: setBiomeContainer @Arg differs)"],
-  ["c-warn", "Missing mixins don't crash — they reroute. 134 shims answer on the mod's behalf."],
+  ["c-warn", "Skipped mixins are recorded with a reason and don't crash; calls are rerouted to vanilla paths."],
 ];
 CMDS["fb failedmixins"] = () => [
-  ["c-ok", "0 — Mixin's own apply machinery had nothing to say today."],
+  ["c-ok", "0 — Mixin itself did not fail on any class this session."],
 ];
 CMDS["fb failures"] = () => [
   ["c-warn", "Failures (1 of 6 shown on this entry; 6 total recorded in calm records):"],
@@ -155,29 +154,28 @@ CMDS["fb failures"] = () => [
 CMDS["fb notloaded"] = () => [
   ["c-hl", "Not loaded (1):"],
   ["c-bad", "rightclickharvest — not loaded — requires 'architectury' [>=19.0.1] but it is not installed"],
-  ["c-dim", "Stated as sentences; no stack walls. Abuse requiring mods is caught pre-load."],
+  ["c-dim", "Dependency problems are stated as sentences; the mod list is checked before any class loads."],
 ];
 CMDS["fb help"] = () => [
   ["c-hl", "/fb — FabricBridge console"],
-  ["c-accent", "  fb status — the whole server at a glance"],
-  ["c-accent", "  fb mods [page] — every mod with its state"],
-  ["c-accent", "  fb degraded / fb notloaded — what's off, and why"],
-  ["c-accent", "  fb why <mod> — everything known about one mod"],
-  ["c-accent", "  fb skipped / failedmixins / failures [page] — mixin bookkeeping"],
+  ["c-accent", "  fb status — session overview"],
+  ["c-accent", "  fb mods [page] — one line per mod with its state"],
+  ["c-accent", "  fb degraded / fb notloaded — mods that partially loaded or didn't load"],
+  ["c-accent", "  fb why <mod> — full detail for one mod"],
+  ["c-accent", "  fb skipped / failedmixins / failures [page] — mixin reports"],
   ["c-accent", "  fb help — this list"],
-  ["c-dim", "Kit keys: whoami · clear · stop · boot"],
+  ["c-dim", "Extra demo commands: whoami · clear · stop"],
 ];
 CMDS["whoami"] = () => [
   ["c-ok", "koolaidguyhey"],
-  ["c-muted", "Even through a console, weirdly polite."],
 ];
 CMDS["help"] = () => CMDS["fb help"]();
 CMDS["clear"] = null;
 CMDS["stop"] = () => [
   ["c-warn", "Stopping the server"],
   ["c-muted", "Saving players · Saving worlds · Saving chunks…"],
-  ["c-muted", "Disabling FabricBridge — catch you on the next restart."],
-  ["c-ok", "Calm shutdown complete. (Demo console: press ▲ once or type any command to keep playing.)"],
+  ["c-muted", "Disabling FabricBridge."],
+  ["c-dim", "(Demo console — type any command to keep going.)"],
 ];
 
 function runCmd(raw) {
@@ -222,20 +220,20 @@ document.querySelectorAll(".term-chips .chip").forEach(c => c.addEventListener("
 /* ═══════════ boot sequence demo ═══════════ */
 const BOOT_LINES = [
   { t: 180,  st: 0, cls: "c-muted",  text: "$ java -javaagent:plugins/FabricBridge.jar -jar server.jar nogui" },
-  { t: 250,  st: 0, cls: "",         text: "Starting your Paper / Purpur server — fabric mods incoming." },
-  { t: 220,  st: 1, cls: "c-accent", text: "FabricBridge — early attach: class census warmed." },
-  { t: 240,  st: 1, cls: "",         text: "Discovered fabric mods: 247 (mods directory) · one excluded: luckperms (upstream-broken jar)" },
-  { t: 300,  st: 1, cls: "",         text: "Resolved dependency tree: 246 loadable, 1 stated-debt." },
-  { t: 400,  st: 2, cls: "c-accent", text: "Mixin configs: 190 discovered → classhooks preflight engaged." },
-  { t: 260,  st: 2, cls: "c-muted",  text: "Targets pre-build: essential server classes verified against live bytes." },
-  { t: 420,  st: 2, cls: "",         text: "Mixins transformed: 190 classes · structurally skipped (with why): 134 · failed applies: 0" },
-  { t: 380,  st: 3, cls: "c-accent", text: "Registry window engaged — bootstrapper phase." },
-  { t: 300,  st: 3, cls: "",         text: "Entrypoints (main): 246 ran clean · 6 degraded with calm single-line reasons." },
+  { t: 250,  st: 0, cls: "",         text: "Starting the Paper / Purpur server." },
+  { t: 220,  st: 1, cls: "c-accent", text: "FabricBridge: agent attached, scanning mods folder." },
+  { t: 240,  st: 1, cls: "",         text: "Discovered Fabric mods: 247 in plugins/FabricBridge/mods/" },
+  { t: 300,  st: 1, cls: "",         text: "Dependency check: 246 loadable, 1 rejected (missing dependency)" },
+  { t: 400,  st: 2, cls: "c-accent", text: "Mixin configs: 190 discovered, preflight checks starting." },
+  { t: 260,  st: 2, cls: "c-muted",  text: "Verifying mixin targets against the live server classes." },
+  { t: 420,  st: 2, cls: "",         text: "Mixin classes transformed: 190 · skipped with reason: 134 · failed: 0" },
+  { t: 380,  st: 3, cls: "c-accent", text: "Registry window open (bootstrap phase)." },
+  { t: 300,  st: 3, cls: "",         text: "Entrypoints: 246 ran clean · 6 degraded with reasons" },
   { t: 360,  st: 3, cls: "",         text: "FabricBridge boot summary: 241 mods active, degradation families: axiom, automodpack, balm… " },
-  { t: 420,  st: 4, cls: "c-muted",  text: "Starting world save-ledger. Preparing spawn area: 1 of 12." },
+  { t: 420,  st: 4, cls: "c-muted",  text: "Starting world. Preparing spawn area: 1 of 12." },
   { t: 300,  st: 4, cls: "",         text: "Preparing spawn area: 90%" },
   { t: 520,  st: 5, cls: "c-ok",     text: "Done (24.102s)! For help, type &quot;help&quot;" },
-  { t: 200,  st: 5, cls: "c-muted",  text: "If a line here says &quot;degraded&quot;, that's a mod — not the server — stepping back. /fb why explains." },
+  { t: 200,  st: 5, cls: "c-muted",  text: "Mods listed as degraded finished boot without their failing part. /fb why &lt;mod&gt; explains." },
 ];
 
 let bootRunId = 0;
@@ -273,9 +271,9 @@ bootBtn.addEventListener("click", async () => {
 document.querySelectorAll("[data-soon]").forEach(el => el.addEventListener("click", e => {
   e.preventDefault();
   const old = el.textContent;
-  el.textContent = "link lands with the real repo ✦";
+  el.textContent = "coming soon";
   setTimeout(() => (el.textContent = old), 1600);
 }));
 
 /* hmm-craft: default boot demo content so the boot panel is never empty */
-bootLines.innerHTML = '<span class="ln c-dim">Console idle — press ▶ Play boot sequence above to see a full FabricBridge startup, stage by stage.</span>';
+bootLines.innerHTML = '<span class="ln c-dim">Press Play above to see a full startup, stage by stage.</span>';
