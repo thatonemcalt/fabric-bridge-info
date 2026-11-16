@@ -373,7 +373,7 @@ if (installStory) {
   const modChips = [...iMods.querySelectorAll(".imod")];
   const beats = [...installStory.querySelectorAll(".beat")];
   const hint = installStory.querySelector(".story-hint");
-  const AGENT = "-javaagent:plugins/FabricBridge-1.0.jar -jar server.jar";
+  const AGENT = "-javaagent:plugins/FabricBridge-1.0-mc1.21.11.jar -jar server.jar";
   const PATCH = "upload → restart — the jar patches the launch itself";
 
   registerScrub(installStory, p => {
@@ -428,7 +428,7 @@ if (installStory) {
 
 /* ═══════════ story 3 — boot console (scrub + optional auto-boot) ═══════════ */
 const BOOT_LINES = [
-  { st: 0, cls: "c-muted",  text: "$ java -javaagent:plugins/FabricBridge-1.0.jar -jar server.jar nogui" },
+  { st: 0, cls: "c-muted",  text: "$ java -javaagent:plugins/FabricBridge-1.0-mc1.21.11.jar -jar server.jar nogui" },
   { st: 0, cls: "",         text: "Starting the Paper / Purpur server." },
   { st: 1, cls: "c-accent", text: "FabricBridge: agent attached, scanning mods folder." },
   { st: 1, cls: "",         text: "Discovered Fabric mods: 247 in plugins/FabricBridge/mods/" },
