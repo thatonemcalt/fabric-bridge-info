@@ -267,6 +267,10 @@ html:not([data-theme="light"]) .tt-moon { color: var(--bg); }
 .ticket-card h3 { font-size: .98rem; margin-bottom: 8px; }
 .ticket-card p { margin: 0; color: var(--muted); font-size: .87rem; }
 .ticket-card code { color: var(--accent-2); }
+.card-note {
+  margin: 12px 0 0; padding-top: 10px; border-top: 1px solid var(--border);
+  font-size: .8rem; color: var(--accent); font-style: italic;
+}
 
 /* faq */
 .faq h3 { font-size: 1.2rem; margin: 0 0 14px; }

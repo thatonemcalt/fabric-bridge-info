@@ -8,6 +8,9 @@ body:
         Thanks for filing! The single most useful things you can paste:
         the **FabricBridge boot summary** line and, if you have one, the relevant
         file from `plugins/FabricBridge/mods/.reports/`.
+
+        And please don't hesitate to report — we always expect bugs on mods
+        we haven't tested yet. Every report makes the tested list longer.
   - type: textarea
     id: what-happened
     attributes:
