@@ -1,5 +1,8 @@
 blank_issues_enabled: false
 contact_links:
+  - name: Download on Modrinth
+    url: https://modrinth.com/plugin/fabric-bridge-plugin
+    about: Versions, changelog and the install jar live here.
   - name: The docs
     url: https://thatonemcalt.github.io/fabric-bridge-info/
     about: Install guide, /fb command reference, and the honest degradation promise — most questions are answered here first.
