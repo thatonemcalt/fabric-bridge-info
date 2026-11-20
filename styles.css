@@ -47,6 +47,9 @@ html[data-theme="light"] {
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+/* sticky header is 54px tall: keep anchor targets clear of it */
+section[id], header[id] { scroll-margin-top: 72px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
 body {
   margin: 0;
   font-family: var(--font-sans);
@@ -84,6 +87,8 @@ h1, h2, h3, h4 { color: var(--text-strong); letter-spacing: -.015em; line-height
 .nav-links a:hover { color: var(--text-strong); background: var(--surface-2); text-decoration: none; }
 .nav-links a.active { color: var(--accent); }
 .nav-actions { display: flex; align-items: center; gap: 10px; justify-self: end; }
+.nav-dl { padding: 5px 13px; font-size: .8rem; }
+@media (max-width: 720px) { .nav-dl { display: none; } }
 .scroll-progress { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; pointer-events: none; }
 .scroll-progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
 
@@ -293,7 +298,28 @@ html:not([data-theme="light"]) .tt-moon { color: var(--bg); }
 .foot-col h4 { font-size: .78rem; text-transform: none; letter-spacing: .02em; color: var(--text-strong); margin: 0 0 10px; font-weight: 600; }
 .foot-col a { display: block; color: var(--muted); font-size: .87rem; padding: 2px 0; }
 .foot-col a:hover { color: var(--accent); text-decoration: none; }
-.foot-bottom { margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--muted); font-size: .8rem; }
+.foot-bottom {
+  margin-top: 36px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--muted); font-size: .8rem;
+  display: flex; justify-content: space-between; align-items: baseline; gap: 10px 24px; flex-wrap: wrap;
+}
+.foot-bottom .legal { max-width: 62ch; opacity: .8; }
+
+/* requirements block (install) */
+.req {
+  margin-top: 18px; padding: 22px; background: var(--surface);
+  border: 1px solid var(--border); border-radius: var(--radius);
+}
+.req h3 { font-size: 1.02rem; margin: 0 0 12px; }
+.req-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.req-list li { color: var(--muted); font-size: .92rem; padding-left: 20px; position: relative; }
+.req-list li::before { content: "▸"; position: absolute; left: 0; color: var(--accent); }
+.req-list b { color: var(--text-strong); font-weight: 600; }
+
+/* honest scope note (compatibility) */
+.compat-note {
+  border-left: 2px solid var(--accent); padding: 2px 0 2px 14px;
+  color: var(--muted) !important; font-size: .88rem !important;
+}
 
 /* reveal on scroll — stagger via --rd set by JS on .reveal-group children */
 .reveal { opacity: 0; }
@@ -309,7 +335,10 @@ html:not([data-theme="light"]) .tt-moon { color: var(--bg); }
   .how-grid { grid-template-columns: 1fr; }
   .nav-links {
     position: absolute; top: 100%; left: 0; right: 0; display: none; flex-direction: column;
+    /* the header is a grid: absolute children get aligned to their grid area unless stretched */
+    justify-self: stretch; width: auto; max-width: none;
     background: var(--bg); border-bottom: 1px solid var(--border); padding: 10px 20px 14px; gap: 2px;
+    box-shadow: 0 14px 24px -18px rgba(0, 0, 0, .8);
   }
   .nav-links.open { display: flex; }
   .burger { display: flex; }
@@ -507,3 +536,6 @@ html:not([data-theme="light"]) .tt-moon { color: var(--bg); }
   .iln { display: block !important; }
   .story-hint { display: none; }
 }
+
+/* 404 page title (single-page site otherwise) */
+.page-title { font-size: 1.8rem; margin: 0 0 8px; }

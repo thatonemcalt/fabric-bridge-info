@@ -1,16 +1,23 @@
 /* FabricBridge site — app.js — plain JS, no dependencies */
 "use strict";
 
+/* ═══════════ outbound links — one source of truth ═══════════
+   The Modrinth slug is fixed when the project is published. Change it
+   once here and every download button, footer link and doc example follows. */
+const MODRINTH_URL = "https://modrinth.com/plugin/fabric-bridge-plugin";
+document.querySelectorAll("[data-modrinth]").forEach(a => { a.href = MODRINTH_URL; a.rel = "noopener"; });
+
 /* ═══════════ theme toggle ═══════════ */
 const root = document.documentElement;
-const savedTheme = localStorage.getItem("fb-theme");
+let savedTheme = null;
+try { savedTheme = localStorage.getItem("fb-theme"); } catch (e) { /* private mode / blocked storage */ }
 if (savedTheme === "light" || savedTheme === "dark") root.dataset.theme = savedTheme;
 else if (window.matchMedia("(prefers-color-scheme: light)").matches) root.dataset.theme = "light";
 
 document.getElementById("themeToggle").addEventListener("click", () => {
   const next = root.dataset.theme === "light" ? "dark" : "light";
   root.dataset.theme = next;
-  localStorage.setItem("fb-theme", next);
+  try { localStorage.setItem("fb-theme", next); } catch (e) { /* storage unavailable: theme still switches */ }
 });
 
 /* burger */
@@ -29,16 +36,25 @@ document.querySelectorAll(".reveal-group").forEach(group => {
     if (child.classList.contains("reveal")) child.style.setProperty("--rd", `${i * 80}ms`);
   });
 });
-const io = new IntersectionObserver(entries => {
-  for (const e of entries) if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
-}, { threshold: .12 });
-document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+const reveals = [...document.querySelectorAll(".reveal")];
+if ("IntersectionObserver" in window) {
+  const io = new IntersectionObserver(entries => {
+    for (const e of entries) if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+  }, { threshold: .12 });
+  reveals.forEach(el => io.observe(el));
+} else {
+  reveals.forEach(el => el.classList.add("in"));   /* no observer: never leave content invisible */
+}
 
 /* ═══════════ nav scroll-spy ═══════════ */
 const spied = [...document.querySelectorAll(".nav-links a[data-spy]")];
 const spyIO = new IntersectionObserver(entries => {
   for (const e of entries) if (e.isIntersecting) {
-    spied.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + e.target.id));
+    spied.forEach(a => {
+      const on = a.getAttribute("href") === "#" + e.target.id;
+      a.classList.toggle("active", on);
+      if (on) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current");
+    });
   }
 }, { rootMargin: "-35% 0px -55% 0px" });
 document.querySelectorAll("section[data-spy]").forEach(s => spyIO.observe(s));
@@ -89,36 +105,32 @@ function println(cls, text) {
 const BOOT_HEADER = [
   ["c-muted", "FabricBridge console demo. Type <span class='c-input'>fb help</span> to see the commands."],
   ["c-dim", "Output format matches the real console."],
+  ["c-dim", "Illustrative session — your mods, versions and counts will differ."],
   ["", ""],
 ];
 
 const CMDS = { /* filled below */ };
 
 CMDS["fb status"] = () => [
-  ["c-hl", "== FabricBridge — status ==", ],
-  ["c-accent", "Runtime: Paper / Purpur · agent attached before server classes load"],
-  ["c-muted", "Mixin classes transformed: 190 · preflight-skipped (with reason): 134 · failed applies: 0"],
-  ["c-ok", "Registry window: open during the bootstrap phase, refrozen on schedule"],
-  ["c-muted", "Report files: plugins/FabricBridge/mods/.reports/ · failed injection calls: 0 · tick exceptions: 0"],
-  ["c-ok", "No unhandled exceptions this session."],
+  ["c-hl", "FabricBridge 1.0 | MC 1.21.11 | runtime mappings: Mojang"],
+  ["c-muted", "Mods loaded: 41, rejected: 2 | mixin ready: true"],
+  ["c-muted", "Classes remapped: 465, mixin-transformed: 163, access-widened: 193"],
+  ["c-muted", "Registry window closed after the entrypoint phase · .reports/ holds every failure stack"],
+  ["c-ok", "No unhandled exceptions this session. 0 crash-reports."],
 ];
 CMDS["fb degraded"] = () => [
-  ["c-warn", "Degraded mods — see fb why <mod> for the reason:"],
-  ["c-warn", "axiom 6.1.5 — entrypoint needs a client-only class · partially active"],
-  ["c-warn", "automodpack 4.0.7 — client branch during init · sync off"],
-  ["c-warn", "balm 21.x — VerifyError in a NeoForge-leaning helper · partially active"],
-  ["c-warn", "modernfix 5.x — client-class touch in init · optimizations partially on"],
-  ["c-warn", "notenoughcrashes — NPE in its own bootstrap · feature off, vanilla crash path"],
-  ["c-warn", "shulkerboxtooltip 9.x — client-class NCDF · partially rendered"],
+  ["c-warn", "Degraded (7 mods) — see fb why &lt;mod&gt; for the reason:"],
+  ["c-warn", "fabric-api ×5 — mixin families skipped on this host build"],
+  ["c-warn", "architectury 19.0.1 — 2 mixins skipped (structural drift) · partially active"],
+  ["c-warn", "ftbessentials 2111.1.1 — 1 mixin skipped (accessor missing) · partially active"],
 ];
-CMDS["fb why axiom"] = () => [
-  ["c-hl", "axiom 6.1.5 — degraded (partly failed)"],
-  ["c-warn", "Partly failed:"],
-  ["c-warn", "  main entrypoint 'com.moulberry.axiom.Axiom' failed, mod may be partially active:"],
-  ["c-muted", "  NoClassDefFoundError: onInitialize needs a client-only class that is not present on"],
-  ["c-muted", "  this server (touching net/minecraft/class_310; bridge neutralized)"],
-  ["c-ok", "Still live: mixins that only touch server-side surfaces ran; registered casts intact."],
-  ["c-dim", "Full details: plugins/FabricBridge/mods/.reports/axiom-main-com.moulberry.axiom.Axiom.log"],
+CMDS["fb why architectury"] = () => [
+  ["c-hl", "architectury 19.0.1 — degraded (2 mixins skipped)"],
+  ["c-warn", "Skipped:"],
+  ["c-warn", "  MixinServerLevel — @Shadow field 'entityManager' is not on ServerLevel"],
+  ["c-warn", "  MixinPersistentEntitySectionManager — state field wired by a pre-loaded mixin"],
+  ["c-ok", "Still live: the rest of architectury's entry points and mixins ran."],
+  ["c-dim", "Full details: plugins/FabricBridge/mods/.reports/architectury-*.log"],
 ];
 CMDS["fb why jamlib"] = () => [
   ["c-hl", "jamlib 2.0.0 — fully active"],
@@ -133,33 +145,35 @@ CMDS["fb why automodpack"] = () => [
 ];
 CMDS["fb why"] = null;   // generic probe — handled specially in runCmd
 CMDS["fb mods"] = () => [
-  ["c-hl", "/fb mods — page 1 of 12 (248 records)"],
-  ["c-ok", "c2me 0.4.0 alpha — fully active (mixin families ×10 bridged)"],
-  ["c-ok", "lithium 0.15 — fully active"],
-  ["c-ok", "krypton 1.0.4 — fully active"],
-  ["c-ok", "fabric-api 0.110 — fully active (4 shim families)"],
-  ["c-warn", "axiom 6.1.5 — degraded (partly failed) — see fb why axiom"],
-  ["c-warn", "balm 21.x — degraded (partly failed) — see fb why balm"],
+  ["c-hl", "/fb mods — page 1 of 3 (41 records)"],
+  ["c-ok", "fabric-api 0.141.6 — fully active (5 module families degraded)"],
+  ["c-ok", "lithium 0.21.4 — fully active"],
+  ["c-ok", "c2me 0.4.0-alpha — fully active (mixin families bridged)"],
+  ["c-ok", "krypton 0.2.10 — fully active"],
+  ["c-warn", "architectury 19.0.1 — degraded (partly failed) — see fb why architectury"],
+  ["c-warn", "ftbessentials 2111.1.1 — degraded (partly failed) — see fb why ftbessentials"],
   ["c-dim", "/fb mods 2 · /fb mods 3 …"],
 ];
 CMDS["fb skipped"] = () => [
-  ["c-hl", "Skipped mixins (134) — feature switched off, vanilla path continues."],
-  ["c-muted", "[chunky] ServerLevelMixin (structural: @Access member entityManager missing on ServerLevel)"],
-  ["c-muted", "[asynclocator] DolphinSwimToTreasure (target Dolphin$SwimToTreasureGoal not on this build)"],
-  ["c-muted", "[c2me-base] access.IChunkSection (validation failed: setBiomeContainer @Arg differs)"],
-  ["c-warn", "Skipped mixins are recorded with a reason and don't crash; calls are rerouted to vanilla paths."],
+  ["c-hl", "Skipped mixins (10) — feature switched off, vanilla path continues."],
+  ["c-muted", "[architectury] MixinServerLevel (structural: @Shadow field entityManager missing on ServerLevel)"],
+  ["c-muted", "[fabric-lifecycle-events-v1] ChunkHolderMixin (structural: @Shadow field oldTicketLevel missing)"],
+  ["c-muted", "[fabric-transfer-api-v1] AbstractFurnaceBlockEntityMixin (injection drift: getTotalCookTime)"],
+  ["c-muted", "[ftbessentials] PlayerListAccess (accessor member 'stats' not found)"],
+  ["c-warn", "Skipped mixins are recorded with a reason and don't crash; calls fall back to vanilla paths."],
 ];
 CMDS["fb failedmixins"] = () => [
   ["c-ok", "0 — Mixin itself did not fail on any class this session."],
 ];
 CMDS["fb failures"] = () => [
-  ["c-warn", "Failures (1 of 6 shown on this entry; 6 total recorded in calm records):"],
+  ["c-warn", "Failures (1 of 7 shown on this entry; 7 total recorded in calm records):"],
   ["c-muted", "[axiom] main entrypoint NCDF — client-only class needed (neutralized)"],
-  ["c-dim", "Full text: fb why <mod> for each."],
+  ["c-dim", "Full text: fb why &lt;mod&gt; for each."],
 ];
 CMDS["fb notloaded"] = () => [
-  ["c-hl", "Not loaded (1):"],
-  ["c-bad", "rightclickharvest — not loaded — requires 'architectury' [>=19.0.1] but it is not installed"],
+  ["c-hl", "Not loaded (2):"],
+  ["c-bad", "viabackwards — requires 'viafabric' [>=0.4.14] but it is not installed"],
+  ["c-bad", "viaversion — requires 'viafabric' [>=0.4.14] but it is not installed"],
   ["c-dim", "Dependency problems are stated as sentences; the mod list is checked before any class loads."],
 ];
 CMDS["fb help"] = () => [
@@ -167,7 +181,7 @@ CMDS["fb help"] = () => [
   ["c-accent", "  fb status — session overview"],
   ["c-accent", "  fb mods [page] — one line per mod with its state"],
   ["c-accent", "  fb degraded / fb notloaded — mods that partially loaded or didn't load"],
-  ["c-accent", "  fb why <mod> — full detail for one mod"],
+  ["c-accent", "  fb why &lt;mod&gt; — full detail for one mod"],
   ["c-accent", "  fb skipped / failedmixins / failures [page] — mixin reports"],
   ["c-accent", "  fb help — this list"],
   ["c-dim", "Extra demo commands: whoami · clear · stop"],
@@ -200,10 +214,10 @@ function runCmd(raw) {
   if (key === "clear") { termOut.innerHTML = ""; return; }
   if (key.startsWith("fb why")) {
     const mod = input.slice(6).trim().toLowerCase();
-    const alias = { "axiom": "fb why axiom", "jamlib": "fb why jamlib", "automodpack": "fb why automodpack" }[mod];
+    const alias = { "architectury": "fb why architectury", "jamlib": "fb why jamlib", "automodpack": "fb why automodpack" }[mod];
     if (alias) { for (const [cls, text] of CMDS[alias]()) println(cls, text); }
-    else if (!mod) println("c-dim", 'Usage: <span class="c-input">fb why &lt;mod&gt;</span> — demo probes available: axiom · jamlib · automodpack.');
-    else println("c-warn", `FabricBridge would probe its records for '${esc(mod)}' now — on a real server you'd get its full report. Demo probes: axiom · jamlib · automodpack.`);
+    else if (!mod) println("c-dim", 'Usage: <span class="c-input">fb why &lt;mod&gt;</span> — demo probes available: architectury · jamlib · automodpack.');
+    else println("c-warn", `FabricBridge would probe its records for '${esc(mod)}' now — on a real server you'd get its full report. Demo probes: architectury · jamlib · automodpack.`);
     return;
   }
   const fn = CMDS[key];
@@ -222,14 +236,6 @@ termIn.addEventListener("keydown", e => {
 });
 termOut.addEventListener("click", () => termIn.focus());
 document.querySelectorAll(".term-chips .chip").forEach(c => c.addEventListener("click", () => { runCmd(c.dataset.cmd); termIn.focus(); }));
-
-/* placeholder external links — quietly inform until real URLs exist */
-document.querySelectorAll("[data-soon]").forEach(el => el.addEventListener("click", e => {
-  e.preventDefault();
-  const old = el.textContent;
-  el.textContent = "coming soon";
-  setTimeout(() => (el.textContent = old), 1600);
-}));
 
 /* ═══════════════════════════════════════════════════════════════
    Scroll-scrub engine — Apple-style.
@@ -430,18 +436,19 @@ if (installStory) {
 const BOOT_LINES = [
   { st: 0, cls: "c-muted",  text: "$ java -javaagent:plugins/FabricBridge-1.0-mc1.21.11.jar -jar server.jar nogui" },
   { st: 0, cls: "",         text: "Starting the Paper / Purpur server." },
-  { st: 1, cls: "c-accent", text: "FabricBridge: agent attached, scanning mods folder." },
-  { st: 1, cls: "",         text: "Discovered Fabric mods: 247 in plugins/FabricBridge/mods/" },
-  { st: 1, cls: "",         text: "Dependency check: 246 loadable, 1 rejected (missing dependency)" },
-  { st: 2, cls: "c-accent", text: "Mixin configs: 190 discovered, preflight checks starting." },
+  { st: 1, cls: "c-accent", text: "[FabricBridge] Deployed jar: FabricBridge-1.0-mc1.21.11.jar (sha256 b46dd33ffb88)" },
+  { st: 1, cls: "",         text: "[FabricBridge] Fabric mods: 50 discovered, 41 loadable" },
+  { st: 1, cls: "",         text: "[FabricBridge] Mappings: 7163 classes · runtime=Mojang" },
+  { st: 2, cls: "c-accent", text: "[FabricBridge] Fabric runtime ready: 41 mods, 37 mixin configs, 273 access-widened classes" },
   { st: 2, cls: "c-muted",  text: "Verifying mixin targets against the live server classes." },
-  { st: 2, cls: "",         text: "Mixin classes transformed: 190 · skipped with reason: 134 · failed: 0" },
-  { st: 3, cls: "c-accent", text: "Registry window open (bootstrap phase)." },
-  { st: 3, cls: "",         text: "Entrypoints: 246 ran clean · 6 degraded with reasons" },
-  { st: 3, cls: "",         text: "FabricBridge boot summary: 241 mods active, degradation families: axiom, automodpack, balm…" },
+  { st: 2, cls: "",         text: "[FabricBridge] Classes remapped: 465, mixin-transformed: 163, access-widened: 193" },
+  { st: 2, cls: "c-warn",   text: "[architectury] Skipping mixin MixinServerLevel (structural: @Shadow field entityManager not found)" },
+  { st: 3, cls: "c-accent", text: "[FabricBridge] Main initializers finished" },
+  { st: 3, cls: "",         text: "[FabricBridge] Mod initializers finished" },
+  { st: 3, cls: "",         text: "[FabricBridge] FabricBridge boot summary: 41 mods active, degradation families: fabric-api×5, architectury, ftbessentials" },
   { st: 4, cls: "c-muted",  text: "Starting world. Preparing spawn area: 1 of 12." },
   { st: 4, cls: "",         text: "Preparing spawn area: 90%" },
-  { st: 5, cls: "c-ok",     text: "Done (24.102s)! For help, type &quot;help&quot;" },
+  { st: 5, cls: "c-ok",     text: "Done (30.855s)! For help, type &quot;help&quot;" },
   { st: 5, cls: "c-muted",  text: "Mods listed as degraded finished boot without their failing part. /fb why &lt;mod&gt; explains." },
 ];
 
