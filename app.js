@@ -187,7 +187,7 @@ CMDS["fb help"] = () => [
   ["c-dim", "Extra demo commands: whoami · clear · stop"],
 ];
 CMDS["whoami"] = () => [
-  ["c-ok", "koolaidguyhey"],
+  ["c-ok", "thatonemcalt"],
 ];
 CMDS["help"] = () => CMDS["fb help"]();
 CMDS["clear"] = null;

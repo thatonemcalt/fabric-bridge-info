@@ -10,7 +10,7 @@
 <meta name="color-scheme" content="dark light">
 <meta name="theme-color" content="#0b0f14" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f6faf8" media="(prefers-color-scheme: light)">
-<meta name="author" content="koolaidguyhey">
+<meta name="author" content="thatonemcalt">
 <meta name="keywords" content="fabricbridge, fabric mods on paper, fabric on purpur, server-side fabric, paper plugin, purpur plugin, minecraft 1.21.11">
 
 <!-- Open Graph / social cards -->
@@ -45,7 +45,7 @@
   "softwareVersion": "1.0",
   "url": "https://thatonemcalt.github.io/fabric-bridge-info/",
   "sameAs": ["https://modrinth.com/plugin/fabric-bridge-plugin"],
-  "author": { "@type": "Person", "name": "koolaidguyhey" },
+  "author": { "@type": "Person", "name": "thatonemcalt" },
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
   "description": "Runs Fabric server-side mods on Paper and Purpur servers without Fabric Loader.",
   "requirements": "Java 21, Paper or Purpur 1.21.11"
@@ -205,7 +205,7 @@
         <div class="ibeats">
           <div class="beat" data-beat="0">
             <h3>Get the jar from Modrinth</h3>
-            <p>Download <a href="https://modrinth.com/plugin/fabric-bridge-plugin" data-modrinth>FabricBridge on Modrinth</a> and drop the jar into your server's <code>plugins/</code> folder. Nothing else is installed, and players install nothing.</p>
+            <p>Download <a href="https://modrinth.com/plugin/fabric-bridge-plugin" data-modrinth>FabricBridge on Modrinth</a> and drop the jar into your server's <code>plugins/</code> folder. Nothing else is installed, and nothing is required on your players' clients — a vanilla client can join. Client mods are optional: a player who wants a mod's custom items and textures installs that mod's client half.</p>
             <div class="term-line"><code>plugins/FabricBridge-1.0-mc1.21.11.jar</code><button class="copy-btn" data-copy="plugins/FabricBridge-1.0-mc1.21.11.jar">copy</button></div>
           </div>
           <div class="beat" data-beat="1">
@@ -335,11 +335,11 @@
     </div>
     <div class="compat reveal">
       <div class="compat-main">
-        <p class="status-chip"><span class="status-dot"></span>v1.0 — verified on Purpur 1.21.11 · joins proven from 26.2 and 1.21.9 clients via ViaVersion</p>
+        <p class="status-chip"><span class="status-dot"></span>v1.0 — verified on Purpur 1.21.11 and Paper 1.21.11 · joins proven from 26.2 and 1.21.9 clients via ViaVersion</p>
         <p class="compat-hed">Most Fabric server-side mods work. Not all of them will.</p>
         <p>The bridge is built to run mods without modification, and the majority load and behave normally. Some mods include code pieces that cannot exist on a Paper-family server. In those cases the affected part is skipped and the reason is printed at boot.</p>
         <p>A degraded mod isn't a broken server. The rest of the mod list runs normally, the failing detail is recorded to <code>.reports/</code> for anyone who wants the full stack, and the console shows the same facts through <code>/fb why</code>.</p>
-        <p class="compat-note">Verified scope: Purpur 1.21.11-2568 with Fabric API 0.141.6, Lambda 1.4.0 and Lithium 0.21.4 — clean boot, real protocol joins, mod commands, mod whispers, and ViaVersion / ViaBackwards joins from a 26.2-claiming and a 1.21.9-claiming client. Paper ships the same patch set and is supported by design, but has not had a separate full test pass yet.</p>
+        <p class="compat-note">Verified scope: Purpur 1.21.11-2568 with Fabric API 0.141.6, Lambda 1.4.0 and Lithium 0.21.4 — clean boot, real protocol joins, mod commands, mod whispers, and ViaVersion / ViaBackwards joins from a 26.2-claiming and a 1.21.9-claiming client. Paper 1.21.11 build 132 was also tested end to end — clean boot, 41 mods, protocol joins and no crash reports.</p>
       </div>
       <ul class="compat-list reveal-group">
         <li class="reveal">Every degradation is reported <em>once</em>, in a sentence, not a stack trace</li>
@@ -400,7 +400,7 @@
     <div class="foot-col"><h4>Help</h4><a href="https://github.com/thatonemcalt/fabric-bridge-info/issues/new?template=bug_report.yml">Report a bug</a><a href="https://github.com/thatonemcalt/fabric-bridge-info/issues/new?template=degradation_report.yml">Report a degradation</a><a href="https://github.com/thatonemcalt/fabric-bridge-info/issues/new?template=question.yml">Ask a question</a></div>
   </div>
   <div class="foot-bottom container">
-    <span>© 2026 koolaidguyhey · FabricBridge 1.0</span>
+    <span>© 2026 thatonemcalt · FabricBridge 1.0</span>
     <span class="legal">Not an official Minecraft service. Not approved by or associated with Mojang, Microsoft, PaperMC, or Fabric.</span>
   </div>
 </footer>
