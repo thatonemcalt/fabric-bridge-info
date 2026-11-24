@@ -74,8 +74,9 @@ h1, h2, h3, h4 { color: var(--text-strong); letter-spacing: -.015em; line-height
 /* ── header ──────────────────────────────────────────────────── */
 .nav {
   position: sticky; top: 0; z-index: 50;
-  background: color-mix(in srgb, var(--bg) 88%, transparent);
-  backdrop-filter: blur(10px);
+  /* opaque on purpose: a blurred, translucent sticky bar lets the page show through
+     it while scrolling, and the blur is what makes the bar smear under scroll */
+  background: var(--bg);
   border-bottom: 1px solid var(--border);
 }
 .nav-inner { max-width: 1080px; margin: 0 auto; padding: 0 22px; height: 54px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
@@ -377,6 +378,8 @@ html:not([data-theme="light"]) .tt-moon { color: var(--bg); }
 /* beat captions crossfade inside the stage — all beats share one grid cell */
 .beats, .ibeats { display: grid; }
 .beats { margin-top: 26px; }
+/* the scroll hint sits just below the captions, so the captions need to stop short of it */
+.beats, .ibeats { padding-bottom: 26px; }
 .ibeats { align-content: center; }
 .beat {
   grid-area: 1 / 1;
@@ -479,7 +482,7 @@ html:not([data-theme="light"]) .tt-moon { color: var(--bg); }
 @keyframes blink { 50% { opacity: 0; } }
 .ipatch-badge {
   font-size: .7rem; color: #06251b; background: var(--accent); border-radius: 4px; padding: 2px 7px;
-  font-weight: 600;
+  font-weight: 600; display: inline-block; white-space: nowrap;
 }
 .imods { opacity: 0; will-change: opacity; }
 .imod {
@@ -562,7 +565,7 @@ html:not([data-theme="light"]) .tt-moon { color: var(--bg); }
 
 /* 7 nav items: the bar needs its full width, so the menu collapses earlier than the page grid.
    The header is a grid: absolute children get aligned to their grid area unless stretched. */
-@media (max-width: 1010px) {
+@media (max-width: 1080px) {
   .nav-links {
     position: absolute; top: 100%; left: 0; right: 0; display: none; flex-direction: column;
     justify-self: stretch; width: auto; max-width: none;
