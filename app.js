@@ -14,7 +14,7 @@ try { savedTheme = localStorage.getItem("fb-theme"); } catch (e) { /* private mo
 if (savedTheme === "light" || savedTheme === "dark") root.dataset.theme = savedTheme;
 else if (window.matchMedia("(prefers-color-scheme: light)").matches) root.dataset.theme = "light";
 
-document.getElementById("themeToggle").addEventListener("click", () => {
+document.getElementById("themeToggle")?.addEventListener("click", () => {
   const next = root.dataset.theme === "light" ? "dark" : "light";
   root.dataset.theme = next;
   try { localStorage.setItem("fb-theme", next); } catch (e) { /* storage unavailable: theme still switches */ }
@@ -22,12 +22,14 @@ document.getElementById("themeToggle").addEventListener("click", () => {
 
 /* burger */
 const burger = document.getElementById("burger");
-burger.addEventListener("click", () => {
-  burger.classList.toggle("open");
-  document.getElementById("navLinks").classList.toggle("open");
-});
-document.querySelectorAll("#navLinks a").forEach(a =>
-  a.addEventListener("click", () => { burger.classList.remove("open"); document.getElementById("navLinks").classList.remove("open"); }));
+if (burger) {
+  burger.addEventListener("click", () => {
+    burger.classList.toggle("open");
+    document.getElementById("navLinks").classList.toggle("open");
+  });
+  document.querySelectorAll("#navLinks a").forEach(a =>
+    a.addEventListener("click", () => { burger.classList.remove("open"); document.getElementById("navLinks").classList.remove("open"); }));
+}
 
 /* ═══════════ reveal on scroll (staggered) ═══════════ */
 /* children of .reveal-group get an incremental animation delay */
@@ -95,6 +97,7 @@ const history = []; let histPos = -1;
 
 function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
 function println(cls, text) {
+  if (!termOut) return;            /* pages without the console demo (changelog) */
   const div = document.createElement("span");
   div.className = "ln " + (cls || "");
   div.innerHTML = text;
@@ -229,12 +232,12 @@ function runCmd(raw) {
 for (const [cls, text] of BOOT_HEADER) println(cls, text);
 println("c-muted", '› click a chip, or type <span class="c-input">fb status</span> and hit enter');
 
-termIn.addEventListener("keydown", e => {
+termIn?.addEventListener("keydown", e => {
   if (e.key === "Enter") { runCmd(termIn.value); termIn.value = ""; }
   else if (e.key === "ArrowUp") { if (histPos > 0) termIn.value = history[--histPos] || ""; e.preventDefault(); }
   else if (e.key === "ArrowDown") { if (histPos < history.length) termIn.value = history[++histPos] || ""; e.preventDefault(); }
 });
-termOut.addEventListener("click", () => termIn.focus());
+termOut?.addEventListener("click", () => termIn?.focus());
 document.querySelectorAll(".term-chips .chip").forEach(c => c.addEventListener("click", () => { runCmd(c.dataset.cmd); termIn.focus(); }));
 
 /* ═══════════════════════════════════════════════════════════════
@@ -458,7 +461,7 @@ const bootFill = document.getElementById("bootBarFill");
 const bootStages = [...document.querySelectorAll("#bootStages .bs")];
 const bootBtn = document.getElementById("bootBtn");
 const HINT_HTML = '<span class="ln c-dim">scroll to boot — each line arrives as you move down…</span>';
-bootLines.innerHTML = HINT_HTML;
+if (bootLines) bootLines.innerHTML = HINT_HTML;
 
 let bootShown = 0;
 function bootRender(p) {
@@ -497,7 +500,7 @@ function bootStopAuto(label) {
   if (bootAutoId) { cancelAnimationFrame(bootAutoId); bootAutoId = 0; }
   bootBtn.textContent = label || "▶ auto-boot";
 }
-bootBtn.addEventListener("click", () => {
+bootBtn?.addEventListener("click", () => {
   if (bootAutoId) { bootStopAuto(); return; }
   bootShown = 0;
   bootLines.innerHTML = "";
@@ -517,10 +520,10 @@ if (!REDUCED && bootStoryEl) {
   registerScrub(bootStoryEl, bootRender);
   /* any user scroll cancels the auto-boot */
   addEventListener("scroll", () => { if (bootAutoId) bootStopAuto(); }, { passive: true, once: false });
-} else {
+} else if (bootStoryEl && bootLines) {
   /* reduced motion or no scrub: render the finished boot statically */
   bootRender(1);
-  bootBtn.style.display = "none";
+  if (bootBtn) bootBtn.style.display = "none";
 }
 
 /* ═══════════ count-up stats ═══════════ */

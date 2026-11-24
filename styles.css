@@ -537,5 +537,48 @@ html:not([data-theme="light"]) .tt-moon { color: var(--bg); }
   .story-hint { display: none; }
 }
 
-/* 404 page title (single-page site otherwise) */
+/* ── changelog page ─────────────────────────────────────────── */
 .page-title { font-size: 1.8rem; margin: 0 0 8px; }
+.page-head { padding: 56px 0 72px; }
+.section-head.wide { max-width: 720px; }
+.rel-title { font-size: 1.45rem; margin: 0 0 8px; }
+.rel-meta {
+  display: flex; gap: 9px; flex-wrap: wrap; margin: 0;
+  font-family: var(--font-mono); font-size: .8rem; color: var(--muted);
+}
+.rel-meta .sep { opacity: .45; }
+.rel-lede { color: var(--muted); font-size: .95rem; margin: 14px 0 22px; }
+.rel-lede b, .req .req-list b { color: var(--text-strong); }
+.req h3 { margin-top: 22px; }
+.vtable-wrap {
+  border: 1px solid var(--border); border-radius: var(--radius);
+  overflow-x: auto; background: var(--surface);
+}
+.vtable { width: 100%; border-collapse: collapse; min-width: 560px; }
+.vtable th, .vtable td {
+  text-align: left; padding: 11px 16px; font-size: .89rem;
+  border-bottom: 1px solid var(--border); vertical-align: top;
+}
+.vtable th {
+  background: var(--surface-2); color: var(--text-strong);
+  font-size: .76rem; font-weight: 600; letter-spacing: .03em;
+  text-transform: uppercase; white-space: nowrap;
+}
+.vtable td { color: var(--muted); }
+.vtable tr:last-child td { border-bottom: 0; }
+.vtable td b { color: var(--text-strong); font-weight: 600; white-space: nowrap; }
+.vtable code { color: var(--accent-2); }
+.vtable .v-ok { color: var(--ok); white-space: nowrap; }
+.vtable .v-next { color: var(--muted); white-space: nowrap; }
+
+/* 7 nav items: the bar needs its full width, so the menu collapses earlier than the page grid */
+@media (max-width: 1010px) {
+  .nav-links {
+    position: absolute; top: 100%; left: 0; right: 0; display: none; flex-direction: column;
+    justify-self: stretch; width: auto; max-width: none;
+    background: var(--bg); border-bottom: 1px solid var(--border); padding: 10px 20px 14px; gap: 2px;
+    box-shadow: 0 14px 24px -18px rgba(0, 0, 0, .8);
+  }
+  .nav-links.open { display: flex; }
+  .burger { display: flex; }
+}
