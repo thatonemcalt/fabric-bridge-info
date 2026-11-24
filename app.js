@@ -266,8 +266,13 @@ const heroFig = document.querySelector(".hero-panel .mini-fig");
 
 let ticking = false;
 function onScroll() {
-  if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  if (ticking) return;
+  ticking = true;
+  /* rAF is paused while the document is hidden (background tab, embedded preview);
+     falling through to a plain call keeps the pinned stages on the real scroll position */
+  if (document.hidden) update(); else requestAnimationFrame(update);
 }
+document.addEventListener("visibilitychange", () => { if (!document.hidden) update(); });
 
 function update() {
   ticking = false;
