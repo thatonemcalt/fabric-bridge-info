@@ -362,12 +362,12 @@ if (bridgeStory) {
     /* caption crossfades — four beats along the timeline */
     const A = [0, .26, .52, .78];
     beats.forEach((b, i) => {
-      const inT = seg(p, A[i], A[i] + .07);
-      const outT = i < 3 ? seg(p, A[i + 1], A[i + 1] + .07) : 0;
-      const o = inT * (1 - outT);
-      b.style.opacity = o;
-      b.style.transform = `translateY(${(1 - inT) * 14}px)`;
-      b.style.visibility = o < .01 ? "hidden" : "visible";
+      /* hard switch, never a crossfade: the captions share one grid cell, so any
+         overlap paints two of them on top of each other, and a scroll that stops
+         inside the fade leaves both readable */
+      const on = p >= A[i] && (i === A.length - 1 || p < A[i + 1]);
+      b.style.opacity = on ? 1 : 0;
+      b.style.visibility = on ? "visible" : "hidden";
     });
 
     if (hint) hint.style.opacity = p > .06 ? 0 : .8;
@@ -426,12 +426,12 @@ if (installStory) {
     /* captions */
     const A = [0, .25, .5, .75];
     beats.forEach((b, i) => {
-      const inT = seg(p, A[i], A[i] + .07);
-      const outT = i < 3 ? seg(p, A[i + 1], A[i + 1] + .07) : 0;
-      const o = inT * (1 - outT);
-      b.style.opacity = o;
-      b.style.transform = `translateY(${(1 - inT) * 14}px)`;
-      b.style.visibility = o < .01 ? "hidden" : "visible";
+      /* hard switch, never a crossfade: the captions share one grid cell, so any
+         overlap paints two of them on top of each other, and a scroll that stops
+         inside the fade leaves both readable */
+      const on = p >= A[i] && (i === A.length - 1 || p < A[i + 1]);
+      b.style.opacity = on ? 1 : 0;
+      b.style.visibility = on ? "visible" : "hidden";
     });
 
     if (hint) hint.style.opacity = p > .06 ? 0 : .8;
