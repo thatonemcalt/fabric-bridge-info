@@ -14,7 +14,7 @@ try { savedTheme = localStorage.getItem("fb-theme"); } catch (e) { /* private mo
 if (savedTheme === "light" || savedTheme === "dark") root.dataset.theme = savedTheme;
 else if (window.matchMedia("(prefers-color-scheme: light)").matches) root.dataset.theme = "light";
 
-document.getElementById("themeToggle")?.addEventListener("click", () => {
+document.getElementById("themeToggle").addEventListener("click", () => {
   const next = root.dataset.theme === "light" ? "dark" : "light";
   root.dataset.theme = next;
   try { localStorage.setItem("fb-theme", next); } catch (e) { /* storage unavailable: theme still switches */ }
@@ -22,14 +22,12 @@ document.getElementById("themeToggle")?.addEventListener("click", () => {
 
 /* burger */
 const burger = document.getElementById("burger");
-if (burger) {
-  burger.addEventListener("click", () => {
-    burger.classList.toggle("open");
-    document.getElementById("navLinks").classList.toggle("open");
-  });
-  document.querySelectorAll("#navLinks a").forEach(a =>
-    a.addEventListener("click", () => { burger.classList.remove("open"); document.getElementById("navLinks").classList.remove("open"); }));
-}
+burger.addEventListener("click", () => {
+  burger.classList.toggle("open");
+  document.getElementById("navLinks").classList.toggle("open");
+});
+document.querySelectorAll("#navLinks a").forEach(a =>
+  a.addEventListener("click", () => { burger.classList.remove("open"); document.getElementById("navLinks").classList.remove("open"); }));
 
 /* ═══════════ reveal on scroll (staggered) ═══════════ */
 /* children of .reveal-group get an incremental animation delay */
@@ -237,7 +235,7 @@ termIn?.addEventListener("keydown", e => {
   else if (e.key === "ArrowUp") { if (histPos > 0) termIn.value = history[--histPos] || ""; e.preventDefault(); }
   else if (e.key === "ArrowDown") { if (histPos < history.length) termIn.value = history[++histPos] || ""; e.preventDefault(); }
 });
-termOut?.addEventListener("click", () => termIn?.focus());
+termOut?.addEventListener("click", () => termIn.focus());
 document.querySelectorAll(".term-chips .chip").forEach(c => c.addEventListener("click", () => { runCmd(c.dataset.cmd); termIn.focus(); }));
 
 /* ═══════════════════════════════════════════════════════════════

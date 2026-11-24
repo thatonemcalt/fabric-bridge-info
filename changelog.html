@@ -57,15 +57,15 @@
 </header>
 
 <!-- ══════════════════ CURRENT RELEASE ══════════════════ -->
-<section class="section page-head">
+<section class="section">
   <div class="container">
-    <div class="section-head wide reveal">
+    <div class="section-head reveal">
       <h1 class="page-title">Changelog</h1>
       <p>The current release and what changed in it. This page is replaced with every release — it is not a history of old versions.</p>
     </div>
 
     <div class="req reveal">
-      <p class="status-chip"><span class="status-dot"></span>v1.0 — current release</p>
+      <p class="status-chip"><span class="status-dot"></span>Current release</p>
       <h2 class="rel-title">FabricBridge 1.0</h2>
       <p class="rel-meta">
         <span>20 Nov 2026</span><span class="sep">·</span>
@@ -75,7 +75,7 @@
       </p>
       <p class="rel-lede">The build that is on Modrinth right now. Everything below is in this jar — no separate hotfix to install.</p>
 
-      <h3>Fixes in this build</h3>
+      <h3 class="rel-h3">Fixes in this build</h3>
       <ul class="req-list">
         <li><b>Clients without the mod stay connected.</b> Custom mod chat colours now go over the wire as hex, so a player whose client lacks the mod no longer disconnects a second after joining.</li>
         <li><b>Players on other Minecraft versions finish joining.</b> Vanilla registry data is no longer re-synced to clients arriving through ViaVersion / ViaBackwards, which used to fail with "received registry entries that are unknown to this client".</li>
@@ -88,7 +88,7 @@
       </ul>
 
       <div class="callout">
-        Verified before upload: this exact jar was booted on Purpur 1.21.11 build 2568 and on stock Paper 1.21.11 build 132 — 41 mods, clean boot and shutdown, joins from 1.21.11, 26.2-claiming and 1.21.9-claiming clients, 0 crash reports.
+        Verified before upload: this exact jar was booted on Purpur 1.21.11 build 2568 and on stock Paper 1.21.11 build 132 — 41 mods, clean boot and shutdown, 0 crash reports. The same 1.0 runtime also passed protocol joins from 1.21.11, 26.2-claiming and 1.21.9-claiming clients.
       </div>
     </div>
   </div>
@@ -116,7 +116,7 @@
           </tr>
           <tr>
             <td><b>Newer versions</b></td>
-            <td class="v-next">Planned</td>
+            <td>Planned</td>
             <td>—</td>
             <td>Support is added per release; each target version gets its own build and its own download.</td>
           </tr>
@@ -128,9 +128,6 @@
       <b>Discontinued versions:</b> none yet — 1.0 is the first release and it is current. Once a version is retired it stays in the table above, marked <b>Discontinued</b> with the last release that supports it. That build keeps installing and running; it just stops receiving new fixes.
     </div>
 
-    <div class="callout reveal">
-      <b>How this page is kept:</b> every change to the plugin — a fix, a command, a compatibility path — is written here in the release it ships in, and the previous release's entries are removed. Older releases are not archived on this page.
-    </div>
   </div>
 </section>
 

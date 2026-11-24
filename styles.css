@@ -333,15 +333,6 @@ html:not([data-theme="light"]) .tt-moon { color: var(--bg); }
   .support-grid { grid-template-columns: 1fr; }
   .foot-grid { grid-template-columns: 1fr 1fr; }
   .how-grid { grid-template-columns: 1fr; }
-  .nav-links {
-    position: absolute; top: 100%; left: 0; right: 0; display: none; flex-direction: column;
-    /* the header is a grid: absolute children get aligned to their grid area unless stretched */
-    justify-self: stretch; width: auto; max-width: none;
-    background: var(--bg); border-bottom: 1px solid var(--border); padding: 10px 20px 14px; gap: 2px;
-    box-shadow: 0 14px 24px -18px rgba(0, 0, 0, .8);
-  }
-  .nav-links.open { display: flex; }
-  .burger { display: flex; }
   .ct-row { grid-template-columns: 1fr; gap: 4px; }
 }
 @media (max-width: 560px) {
@@ -539,8 +530,6 @@ html:not([data-theme="light"]) .tt-moon { color: var(--bg); }
 
 /* ── changelog page ─────────────────────────────────────────── */
 .page-title { font-size: 1.8rem; margin: 0 0 8px; }
-.page-head { padding: 56px 0 72px; }
-.section-head.wide { max-width: 720px; }
 .rel-title { font-size: 1.45rem; margin: 0 0 8px; }
 .rel-meta {
   display: flex; gap: 9px; flex-wrap: wrap; margin: 0;
@@ -548,8 +537,7 @@ html:not([data-theme="light"]) .tt-moon { color: var(--bg); }
 }
 .rel-meta .sep { opacity: .45; }
 .rel-lede { color: var(--muted); font-size: .95rem; margin: 14px 0 22px; }
-.rel-lede b, .req .req-list b { color: var(--text-strong); }
-.req h3 { margin-top: 22px; }
+.req .rel-h3 { margin: 22px 0 12px; }
 .vtable-wrap {
   border: 1px solid var(--border); border-radius: var(--radius);
   overflow-x: auto; background: var(--surface);
@@ -569,9 +557,9 @@ html:not([data-theme="light"]) .tt-moon { color: var(--bg); }
 .vtable td b { color: var(--text-strong); font-weight: 600; white-space: nowrap; }
 .vtable code { color: var(--accent-2); }
 .vtable .v-ok { color: var(--ok); white-space: nowrap; }
-.vtable .v-next { color: var(--muted); white-space: nowrap; }
 
-/* 7 nav items: the bar needs its full width, so the menu collapses earlier than the page grid */
+/* 7 nav items: the bar needs its full width, so the menu collapses earlier than the page grid.
+   The header is a grid: absolute children get aligned to their grid area unless stretched. */
 @media (max-width: 1010px) {
   .nav-links {
     position: absolute; top: 100%; left: 0; right: 0; display: none; flex-direction: column;
