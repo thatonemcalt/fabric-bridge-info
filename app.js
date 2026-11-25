@@ -113,7 +113,7 @@ const BOOT_HEADER = [
 const CMDS = { /* filled below */ };
 
 CMDS["fb status"] = () => [
-  ["c-hl", "FabricBridge 1.0 | MC 1.21.11 | runtime mappings: Mojang"],
+  ["c-hl", "FabricBridge 1.0 | runtime mappings: Mojang"],
   ["c-muted", "Mods loaded: 41, rejected: 2 | mixin ready: true"],
   ["c-muted", "Classes remapped: 465, mixin-transformed: 163, access-widened: 193"],
   ["c-muted", "Registry window closed after the entrypoint phase · .reports/ holds every failure stack"],
@@ -122,11 +122,11 @@ CMDS["fb status"] = () => [
 CMDS["fb degraded"] = () => [
   ["c-warn", "Degraded (7 mods) — see fb why &lt;mod&gt; for the reason:"],
   ["c-warn", "fabric-api ×5 — mixin families skipped on this host build"],
-  ["c-warn", "architectury 19.0.1 — 2 mixins skipped (structural drift) · partially active"],
-  ["c-warn", "ftbessentials 2111.1.1 — 1 mixin skipped (accessor missing) · partially active"],
+  ["c-warn", "architectury — 2 mixins skipped (structural drift) · partially active"],
+  ["c-warn", "ftbessentials — 1 mixin skipped (accessor missing) · partially active"],
 ];
 CMDS["fb why architectury"] = () => [
-  ["c-hl", "architectury 19.0.1 — degraded (2 mixins skipped)"],
+  ["c-hl", "architectury — degraded (2 mixins skipped)"],
   ["c-warn", "Skipped:"],
   ["c-warn", "  MixinServerLevel — @Shadow field 'entityManager' is not on ServerLevel"],
   ["c-warn", "  MixinPersistentEntitySectionManager — state field wired by a pre-loaded mixin"],
@@ -134,12 +134,12 @@ CMDS["fb why architectury"] = () => [
   ["c-dim", "Full details: plugins/FabricBridge/mods/.reports/architectury-*.log"],
 ];
 CMDS["fb why jamlib"] = () => [
-  ["c-hl", "jamlib 2.0.0 — fully active"],
+  ["c-hl", "jamlib — fully active"],
   ["c-ok", "No degradations — every mixin applied, entrypoints all ran."],
   ["c-muted", "(Fixed by the bridge's synthetic loader pseudo-mods: isModLoaded('fabricloader') resolves)"],
 ];
 CMDS["fb why automodpack"] = () => [
-  ["c-hl", "automodpack 4.0.7 — degraded (partly failed)"],
+  ["c-hl", "automodpack — degraded (partly failed)"],
   ["c-warn", "main entrypoint 'FabricInit::onInitialize' failed, mod may be partially active:"],
   ["c-muted", "  NoClassDefFoundError: net/minecraft/class_310 — client Minecraft class, absent on servers."],
   ["c-ok", "Players still connect normally; only the sync entrypoint is unavailable here."],
@@ -147,12 +147,12 @@ CMDS["fb why automodpack"] = () => [
 CMDS["fb why"] = null;   // generic probe — handled specially in runCmd
 CMDS["fb mods"] = () => [
   ["c-hl", "/fb mods — page 1 of 3 (41 records)"],
-  ["c-ok", "fabric-api 0.141.6 — fully active (5 module families degraded)"],
-  ["c-ok", "lithium 0.21.4 — fully active"],
-  ["c-ok", "c2me 0.4.0-alpha — fully active (mixin families bridged)"],
-  ["c-ok", "krypton 0.2.10 — fully active"],
-  ["c-warn", "architectury 19.0.1 — degraded (partly failed) — see fb why architectury"],
-  ["c-warn", "ftbessentials 2111.1.1 — degraded (partly failed) — see fb why ftbessentials"],
+  ["c-ok", "fabric-api — fully active (5 module families degraded)"],
+  ["c-ok", "lithium — fully active"],
+  ["c-ok", "c2me — fully active (mixin families bridged)"],
+  ["c-ok", "krypton — fully active"],
+  ["c-warn", "architectury — degraded (partly failed) — see fb why architectury"],
+  ["c-warn", "ftbessentials — degraded (partly failed) — see fb why ftbessentials"],
   ["c-dim", "/fb mods 2 · /fb mods 3 …"],
 ];
 CMDS["fb skipped"] = () => [
@@ -173,8 +173,8 @@ CMDS["fb failures"] = () => [
 ];
 CMDS["fb notloaded"] = () => [
   ["c-hl", "Not loaded (2):"],
-  ["c-bad", "viabackwards — requires 'viafabric' [>=0.4.14] but it is not installed"],
-  ["c-bad", "viaversion — requires 'viafabric' [>=0.4.14] but it is not installed"],
+  ["c-bad", "viabackwards — requires 'viafabric' but it is not installed"],
+  ["c-bad", "viaversion — requires 'viafabric' but it is not installed"],
   ["c-dim", "Dependency problems are stated as sentences; the mod list is checked before any class loads."],
 ];
 CMDS["fb help"] = () => [
@@ -385,7 +385,7 @@ if (installStory) {
   const modChips = [...iMods.querySelectorAll(".imod")];
   const beats = [...installStory.querySelectorAll(".beat")];
   const hint = installStory.querySelector(".story-hint");
-  const AGENT = "-javaagent:plugins/FabricBridge-1.0-mc1.21.11.jar -jar server.jar";
+  const AGENT = "-javaagent:plugins/FabricBridge.jar -jar server.jar";
   const PATCH = "upload → restart — the jar patches the launch itself";
 
   registerScrub(installStory, p => {
@@ -440,9 +440,9 @@ if (installStory) {
 
 /* ═══════════ story 3 — boot console (scrub + optional auto-boot) ═══════════ */
 const BOOT_LINES = [
-  { st: 0, cls: "c-muted",  text: "$ java -javaagent:plugins/FabricBridge-1.0-mc1.21.11.jar -jar server.jar nogui" },
+  { st: 0, cls: "c-muted",  text: "$ java -javaagent:plugins/FabricBridge.jar -jar server.jar nogui" },
   { st: 0, cls: "",         text: "Starting the Paper / Purpur server." },
-  { st: 1, cls: "c-accent", text: "[FabricBridge] Deployed jar: FabricBridge-1.0-mc1.21.11.jar (sha256 b46dd33ffb88)" },
+  { st: 1, cls: "c-accent", text: "[FabricBridge] Deployed jar: FabricBridge.jar" },
   { st: 1, cls: "",         text: "[FabricBridge] Fabric mods: 50 discovered, 41 loadable" },
   { st: 1, cls: "",         text: "[FabricBridge] Mappings: 7163 classes · runtime=Mojang" },
   { st: 2, cls: "c-accent", text: "[FabricBridge] Fabric runtime ready: 41 mods, 37 mixin configs, 273 access-widened classes" },

@@ -11,7 +11,7 @@
 <meta name="theme-color" content="#0b0f14" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f6faf8" media="(prefers-color-scheme: light)">
 <meta name="author" content="thatonemcalt">
-<meta name="keywords" content="fabricbridge, fabric mods on paper, fabric on purpur, server-side fabric, paper plugin, purpur plugin, minecraft 1.21.11">
+<meta name="keywords" content="fabricbridge, fabric mods on paper, fabric on purpur, server-side fabric, paper plugin, purpur plugin">
 
 <!-- Open Graph / social cards -->
 <meta property="og:type" content="website">
@@ -23,7 +23,7 @@
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="FabricBridge — Fabric server-side mods on Paper &amp; Purpur, Minecraft 1.21.11, Java 21+">
+<meta property="og:image:alt" content="FabricBridge — Fabric server-side mods on Paper &amp; Purpur">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="FabricBridge — Fabric server-side mods on Paper &amp; Purpur">
 <meta name="twitter:description" content="Run Fabric server-side mods on Paper and Purpur without Fabric Loader. One jar, calm degradations, no crash loop.">
@@ -48,7 +48,7 @@
   "author": { "@type": "Person", "name": "thatonemcalt" },
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
   "description": "Runs Fabric server-side mods on Paper and Purpur servers without Fabric Loader.",
-  "requirements": "Java 21, Paper or Purpur 1.21.11"
+  "requirements": "A current Java runtime, Paper or Purpur"
 }
 </script>
 <noscript><style>.reveal{opacity:1 !important}.story-hint{display:none}</style></noscript>
@@ -96,7 +96,7 @@
         <a class="btn btn-ghost" href="#how">How it works</a>
       </div>
       <div class="hero-meta">
-        <span>v1.0</span><span class="sep">·</span><span>MC 1.21.11</span><span class="sep">·</span><span>Paper / Purpur</span><span class="sep">·</span><span>Java 21+</span><span class="sep">·</span><span>server-side only</span>
+        <span>v1.0</span><span class="sep">·</span><span>Paper / Purpur</span><span class="sep">·</span><span>server-side only</span>
       </div>
     </div>
 
@@ -181,7 +181,7 @@
   <div class="container">
     <div class="section-head reveal">
       <h2>Installation</h2>
-      <p>Built for Paper and Purpur, verified on Purpur 1.21.11. The whole setup is four steps.</p>
+      <p>Built for Paper and Purpur. The whole setup is four steps.</p>
     </div>
   </div>
   <div class="story story-install" data-story="install">
@@ -190,10 +190,10 @@
         <div class="ivisual" aria-hidden="true">
           <div class="ifolder" id="iFolder">
             <span class="ifolder-head">plugins/</span>
-            <div class="ijar" id="iJar">FabricBridge-1.0-mc1.21.11.jar</div>
+            <div class="ijar" id="iJar">FabricBridge.jar</div>
           </div>
           <div class="iterm mono">
-            <span class="iln" id="iCmdAgent"><b>-javaagent:</b>plugins/FabricBridge-1.0-mc1.21.11.jar&nbsp;-jar&nbsp;server.jar</span>
+            <span class="iln" id="iCmdAgent"><b>-javaagent:</b>plugins/FabricBridge.jar&nbsp;-jar&nbsp;server.jar</span>
             <span class="iln" id="iCmdPatch">upload&nbsp;→&nbsp;restart&nbsp;&nbsp;<span class="ipatch-badge">no flags needed</span></span>
           </div>
           <div class="imods" id="iMods">
@@ -207,12 +207,12 @@
           <div class="beat" data-beat="0">
             <h3>Get the jar from Modrinth</h3>
             <p>Download <a href="https://modrinth.com/plugin/fabric-bridge-plugin" data-modrinth>FabricBridge on Modrinth</a> and drop the jar into your server's <code>plugins/</code> folder. Nothing else is installed, and nothing is required on your players' clients — a vanilla client can join. Client mods are optional: a player who wants a mod's custom items and textures installs that mod's client half.</p>
-            <div class="term-line"><code>plugins/FabricBridge-1.0-mc1.21.11.jar</code><button class="copy-btn" data-copy="plugins/FabricBridge-1.0-mc1.21.11.jar">copy</button></div>
+            <div class="term-line"><code>plugins/FabricBridge.jar</code><button class="copy-btn" data-copy="plugins/FabricBridge.jar">copy</button></div>
           </div>
           <div class="beat" data-beat="1">
             <h3>Self-managed host? Add one flag</h3>
             <p>If you control the startup command, attach the agent before <code>-jar</code> so it loads before any server class.</p>
-            <div class="term-line"><code>java&nbsp;<b>-javaagent:plugins/FabricBridge-1.0-mc1.21.11.jar</b>&nbsp;-jar&nbsp;server.jar&nbsp;nogui</code><button class="copy-btn" data-copy="-javaagent:plugins/FabricBridge-1.0-mc1.21.11.jar">copy</button></div>
+            <div class="term-line"><code>java&nbsp;<b>-javaagent:plugins/FabricBridge.jar</b>&nbsp;-jar&nbsp;server.jar&nbsp;nogui</code><button class="copy-btn" data-copy="-javaagent:plugins/FabricBridge.jar">copy</button></div>
           </div>
           <div class="beat" data-beat="2">
             <h3>Managed host with a fixed startup line?</h3>
@@ -237,8 +237,8 @@
     <div class="req reveal">
       <h3>Before you start</h3>
       <ul class="req-list">
-        <li><b>Java 21 or newer.</b> The bridge and its agent target Java 21 bytecode; older runtimes are refused at startup.</li>
-        <li><b>A Paper or Purpur 1.21.11 server.</b> This build targets 1.21.11 and its mappings; the plugin declares that API version, so a different server version will not load it.</li>
+        <li><b>A current Java runtime.</b> The bridge and its agent refuse runtimes older than the bytecode they target at startup.</li>
+        <li><b>A Paper or Purpur server.</b> The plugin declares the API version it supports, so a server it cannot run on refuses the jar cleanly instead of half-loading.</li>
         <li><b>Server-side mods only.</b> Client mods, client entry points and client-only classes are detected on a dedicated server and skipped, not forced in.</li>
         <li><b>One outbound HTTPS request on first boot.</b> The official Mojang mappings are downloaded once and cached under <code>plugins/FabricBridge/.cache/</code>.</li>
       </ul>
@@ -336,17 +336,17 @@
     </div>
     <div class="compat reveal">
       <div class="compat-main">
-        <p class="status-chip"><span class="status-dot"></span>v1.0 — verified on Purpur 1.21.11 and Paper 1.21.11 · joins proven from 26.2 and 1.21.9 clients via ViaVersion</p>
+        <p class="status-chip"><span class="status-dot"></span>v1.0 — verified on Paper and Purpur · cross-version joins proven via ViaVersion</p>
         <p class="compat-hed">Most Fabric server-side mods work. Not all of them will.</p>
         <p>The bridge is built to run mods without modification, and the majority load and behave normally. Some mods include code pieces that cannot exist on a Paper-family server. In those cases the affected part is skipped and the reason is printed at boot.</p>
         <p>A degraded mod isn't a broken server. The rest of the mod list runs normally, the failing detail is recorded to <code>.reports/</code> for anyone who wants the full stack, and the console shows the same facts through <code>/fb why</code>.</p>
-        <p class="compat-note">Verified scope: Purpur 1.21.11-2568 with Fabric API 0.141.6, Lambda 1.4.0 and Lithium 0.21.4 — clean boot, real protocol joins, mod commands, mod whispers, and ViaVersion / ViaBackwards joins from a 26.2-claiming and a 1.21.9-claiming client. Paper 1.21.11 build 132 was also tested end to end — clean boot, 41 mods, protocol joins and no crash reports.</p>
+        <p class="compat-note">Verified scope: Paper and Purpur with Fabric API plus a realistic set of server-side mods — clean boot, real protocol joins, mod commands, and ViaVersion / ViaBackwards joins from clients claiming other versions. Contained failures are reported, not crashes.</p>
       </div>
       <ul class="compat-list reveal-group">
         <li class="reveal">Every degradation is reported <em>once</em>, in a sentence, not a stack trace</li>
         <li class="reveal">Skipped mixins always include a reason and never take the server down</li>
         <li class="reveal">Client-only entry points are detected on a dedicated server and step aside</li>
-        <li class="reveal">Players on newer (26.x) or older (1.21.9/1.21.10) versions can join via ViaVersion / ViaBackwards</li>
+        <li class="reveal">Players on newer or older Minecraft versions can join via ViaVersion / ViaBackwards</li>
         <li class="reveal">Mods that need runtime loaders (e.g. those with their own bootstrap machines) are the main unmapped surface</li>
       </ul>
     </div>
@@ -383,7 +383,7 @@
       <details class="faq-item"><summary>Do I need a Fabric server alongside Paper?</summary><p>No. FabricBridge performs the remapping and class loading itself on Paper and Purpur. Setup is one jar: add the <code>-javaagent</code> flag on hosts you control, or nothing at all on managed panels with a fixed startup line — the jar auto-patches the server's own launch on first boot.</p></details>
       <details class="faq-item"><summary>Where are the stacks when something fails?</summary><p>In <code>plugins/FabricBridge/mods/.reports/</code>, one file per failure. The console intentionally shows one line; the files hold the depth.</p></details>
       <details class="faq-item"><summary>Is there a way to test a few mods before committing a full mod list?</summary><p>Yes. Mods are read from <code>plugins/FabricBridge/mods/</code> at each boot, so you can build the folder up gradually and read the boot summary after every restart.</p></details>
-      <details class="faq-item"><summary>Can players join from a different Minecraft version than the server?</summary><p>Yes. With ViaVersion / ViaBackwards on the server, players on newer (26.x) or older versions join normally — this is verified with full protocol-level joins, not just a ping.</p></details>
+      <details class="faq-item"><summary>Can players join from a different Minecraft version than the server?</summary><p>Yes. With ViaVersion / ViaBackwards on the server, players on newer or older versions join normally — this is verified with full protocol-level joins, not just a ping.</p></details>
     </div>
   </div>
 </section>
